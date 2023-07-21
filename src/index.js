@@ -2,12 +2,15 @@ const exp = require('express');
 const morgan = require('morgan');
 const { engine } = require("express-handlebars");
 const path = require('path');
+//call route
+const route = require('./routes');
+//connect db
+const db = require('./config/db');
+//call oblect connect
+db.connect();
 
 const app = exp();
 const port = 3000;
-
-//call route
-const route = require('./routes');
 
 //HTTP logger
 //app.use(morgan('combined'));
