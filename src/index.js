@@ -25,13 +25,15 @@ app.use(exp.urlencoded({
 //call midleware of express to get data from javacript library(httpXML, ajax, fetch, axios,...)
 app.use(exp.json());
 
-//template engine
+//========template engine
 app.engine('hbs', engine({//config file name from .handlebars to .hbs
     extname: '.hbs' //config file name from .handlebars to .hbs
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources','views'));
+
 //console.log('dir: ',path.join(__dirname, 'resources/views'));
+//========
 
 //route init
 route(app);
