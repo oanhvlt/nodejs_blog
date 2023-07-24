@@ -30,12 +30,12 @@ app.engine('hbs', engine({//config file name from .handlebars to .hbs
     extname: '.hbs' //config file name from .handlebars to .hbs
 }));
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('views', path.join(__dirname, 'resources','views'));
 //console.log('dir: ',path.join(__dirname, 'resources/views'));
 
 //route init
 route(app);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 });
