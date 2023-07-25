@@ -1,10 +1,10 @@
 
 module.exports = {
-    multipleMongooseToObj: function (mongooseArrs){
-        return mongooseArrs.map(mongoose => mongoose.toObject());
+    multipleMongooseToObj: function (courseF8Array){
+        return courseF8Array.map(course => course.toObject());
     },
-    mongooseToObj: function (mongoose){
-        return mongoose ? mongoose.toObject() : mongoose;
+    mongooseToObj: function (course){
+        return course ? course.toObject() : course;
     },
     
 };

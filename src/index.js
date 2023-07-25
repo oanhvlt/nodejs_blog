@@ -3,9 +3,9 @@ const morgan = require('morgan');
 const { engine } = require("express-handlebars");
 const path = require('path');
 //call route
-const route = require('./routes');
+const route = require('./routes/indexRouter');
 //connect db
-const db = require('./config/db');
+const db = require('./config/db/indexDB');
 //call oblect connect
 db.connect();
 

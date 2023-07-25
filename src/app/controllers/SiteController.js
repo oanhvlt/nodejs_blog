@@ -40,15 +40,15 @@ class SiteController {
         //             .catch(next);
 
         courseModel.find({})
-                    .then(courseF8s => {
+                    .then(courseF8Array => {
                         /*
                         //cách access model khi use handlebar
-                        courseF8s = courseF8s.map(course => course.toObject()) 
+                        courseF8Array = courseF8Array.map(course => course.toObject()) //=> tách obj: function ra bằng cách dùng file until/mongoose.js
                         */
 
                         //GET /home : call home.hbs đã khai báo trong src/index
                         res.render('home', {
-                            courses: multipleMongooseToObj(courseF8s)//trả dữ liệu cho view: courses
+                            courses: multipleMongooseToObj(courseF8Array)//trả dữ liệu cho view: courses
                         }) 
                     })
                     .catch(next);
