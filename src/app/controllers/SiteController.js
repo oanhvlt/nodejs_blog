@@ -1,5 +1,6 @@
 //1. import Model
 const courseModel = require('../models/Course');
+const {multipleMongooseToObj} = require('../../until/mongoose');
 
 class SiteController {
     
@@ -40,13 +41,18 @@ class SiteController {
 
         courseModel.find({})
                     .then(courseF8s => {
-                        courseF8s = courseF8s.map(course => course.toObject())
-                        res.render('home', {courses: courseF8s})
+                        /*
+                        //cách access model khi use handlebar
+                        courseF8s = courseF8s.map(course => course.toObject()) 
+                        */
+
+                        //GET /home : call home.hbs đã khai báo trong src/index
+                        res.render('home', {
+                            courses: multipleMongooseToObj(courseF8s)//trả dữ liệu cho view: courses
+                        }) 
                     })
                     .catch(next);
         
-        //GET /home
-        //res.render('home'); //call home.hbs đã khai báo trong src/index
     }
 
     //[GET]  /search
