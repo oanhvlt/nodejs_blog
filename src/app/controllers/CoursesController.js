@@ -1,4 +1,4 @@
-const courseModel = require('../models/Course');
+const CourseModel = require('../models/Course');
 const {mongooseToObj} = require('../../until/mongoose');
 
 class CourseController {
@@ -8,7 +8,7 @@ class CourseController {
         
         /** Access model: use Promise **/
         //req.params.slug: follow by '/:slug' on coursesRouter.js
-        courseModel.findOne({slug: req.params.slug}) //findOne({field in DB: value reference})
+        CourseModel.findOne({slug: req.params.slug}) //findOne({field in DB: value reference})
                     .then(courseF8 => {
                         //res.json(course)
                         res.render('courses/show', {
@@ -17,6 +17,21 @@ class CourseController {
                     })
                     .catch(next);
     }
+
+    //[GET]  /courses/create
+    create(req, res, next){
+        res.render('courses/create');
+    }
+
+    //[POST]  /courses/store
+    store(req, res, next){
+        //res.json(req.body);
+        const formData = req.body;
+        formData.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg`;
+        const course = new CourseModel(formData);
+        course.save();
+        res.send('COURSE SAVED!!')
+    }
 }
 
-module.exports = new CourseController;
+module.exports = new CourseController();
