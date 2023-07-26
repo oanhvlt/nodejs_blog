@@ -29,8 +29,12 @@ class CourseController {
         const formData = req.body;
         formData.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg`;
         const course = new CourseModel(formData);
-        course.save();
-        res.send('COURSE SAVED!!')
+        course.save()
+            .then(() => res.redirect('/'))
+            .catch(err => {
+
+            });
+       
     }
 }
 
