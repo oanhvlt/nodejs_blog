@@ -1,5 +1,5 @@
 //1. import Model
-const courseModel = require('../models/Course');
+const CourseModel = require('../models/Course');
 const {multipleMongooseToObj} = require('../../until/mongoose');
 
 class SiteController {
@@ -39,7 +39,7 @@ class SiteController {
         //             .then(courses => res.json(courses))
         //             .catch(next);
 
-        courseModel.find({})
+        CourseModel.find({})
                     .then(courseF8Array => {
                         /*
                         //cách access model khi use handlebar
