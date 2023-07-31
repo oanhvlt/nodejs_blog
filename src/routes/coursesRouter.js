@@ -6,6 +6,7 @@ router.get('/create', coursesController.create);
 router.post('/store', coursesController.store);
 router.get('/:id/edit', coursesController.edit);
 router.put('/:id', coursesController.update);
+router.delete('/:id', coursesController.delete);
 
 //slug page phải gọi sau cùng
 router.get('/:slug', coursesController.show);

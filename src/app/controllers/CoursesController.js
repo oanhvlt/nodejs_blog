@@ -32,13 +32,6 @@ class CourseController {
             })
             .catch(next);
     }
-    //[PUT]  /courses/:id
-    update(req, res, next){
-        //res.json(req.body);
-        CourseModel.updateOne({_id: req.params.id}, req.body) //{condition}, object muốn update
-                    .then(() => res.redirect('/me/stored/courses') )
-                    .catch(next);
-    }
 
     //[POST]  /courses/store
     store(req, res, next){
@@ -52,6 +45,21 @@ class CourseController {
 
             });
        
+    }
+
+    //[PUT]  /courses/:id
+    update(req, res, next){
+        //res.json(req.body);
+        CourseModel.updateOne({_id: req.params.id}, req.body) //{condition}, object muốn update
+                    .then(() => res.redirect('/me/stored/courses') ) // redirect: thêm 1 key location vào Response header của HTTP trên browser
+                    .catch(next);
+    }
+
+    //[DELETE]  /courses/:id
+    delete(req, res, next){
+        CourseModel.deleteOne({_id: req.params.id}) //{condition}, object muốn update
+        .then(() => res.redirect('back') ) // redirect: thêm 1 key location vào Response header của HTTP trên browser
+        .catch(next);
     }
 
     

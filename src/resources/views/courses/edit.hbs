@@ -1,6 +1,7 @@
 <div class="mt-4">
     <h3>Cập nhật khóa học</h3>
-    <form class="mt-4" method="post" action="/courses/{{course._id}}?_method=PUT">
+    {{!-- use method-override:  https://expressjs.com/en/resources/middleware/method-override.html --}}
+    <form class="mt-4" method="post" action="/courses/{{course._id}}?_method=PUT"> {{!-- override put lên method post của form--}}
         <div class="form-group">
             <label for="name">Tên khóa học</label>
             <input type="text" class="form-control" value="{{course.name}}" id="inp-name" name="name">

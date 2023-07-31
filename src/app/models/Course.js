@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const Course = new Schema({
         name: { type: String, require: true },
-        description: { type: String, require: true },
+        description: { type: String },
         image: { type: String, require: true },
         videoId: { type: String, require: true },
         level: { type: String},
