@@ -55,14 +55,26 @@ class CourseController {
                     .catch(next);
     }
 
-    //[DELETE]  /courses/:id
-    delete(req, res, next){
-        CourseModel.deleteOne({_id: req.params.id}) //{condition}, object muốn update
+    //[PUT]  /courses/:id/softDelete
+    softDelete(req, res, next){
+        //CourseModel.deleteOne({_id: req.params.id}) //deleteOne({condition}, object muốn update)
+        CourseModel.delete({_id: req.params.id}) //delete: use thư viện mongoose-delete đã add tại model Course.js
         .then(() => res.redirect('back') ) // redirect: thêm 1 key location vào Response header của HTTP trên browser
         .catch(next);
     }
 
-    
+     //[PATCH]  /courses/:id/restore
+    restore(req, res, next){
+        CourseModel.restore({_id: req.params.id}) //restore: use thư viện mongoose-delete đã add tại model Course.js
+        .then(() => res.redirect('back') ) 
+        .catch(next);
+    }
+    //[DELETE]  /courses/:id/restore/force
+    forceDelete(req, res, next){
+        CourseModel.deleteOne({_id: req.params.id}) //restore: use thư viện mongoose-delete đã add tại model Course.js
+        .then(() => res.redirect('back') ) 
+        .catch(next);
+    }
 }
 
 module.exports = new CourseController();

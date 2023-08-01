@@ -6,7 +6,9 @@ router.get('/create', coursesController.create);
 router.post('/store', coursesController.store);
 router.get('/:id/edit', coursesController.edit);
 router.put('/:id', coursesController.update);
-router.delete('/:id', coursesController.delete);
+router.put('/:id/softDelete', coursesController.softDelete); //đưa course vào thùng rác: thêm deleted: true và deletedAt
+router.patch('/:id/restore', coursesController.restore);
+router.delete('/:id/force', coursesController.forceDelete);
 
 //slug page phải gọi sau cùng
 router.get('/:slug', coursesController.show);
