@@ -36,11 +36,10 @@ class CourseController {
     //[POST]  /courses/store
     store(req, res, next){
         //res.json(req.body);
-        const formData = req.body;
-        formData.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg`;
-        const course = new CourseModel(formData);
+        req.body.image = `https://i.ytimg.com/vi/${req.body.videoId}/hqdefault.jpg`;
+        const course = new CourseModel(req.body);
         course.save()
-            .then(() => res.redirect('/'))
+            .then(() => res.redirect('/me/stored/courses'))
             .catch(err => {
 
             });
