@@ -1,6 +1,8 @@
 <div class="mt-4">
     <h3>Khóa học của tôi</h3>
-    <a href="/me/trash/courses">Thùng rác</a>
+    {{#if deletedCount}}
+    <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a> {{!--deletedCount: truyền từ func storedCourses from stored-courses.hbs--}}
+    {{/if}}
     <table class="table mt-4">
         <thead>
             <tr>

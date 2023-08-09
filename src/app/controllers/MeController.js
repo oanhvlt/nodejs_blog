@@ -5,13 +5,30 @@ const {multipleMongooseToObj} = require('../../until/mongoose');
 class MeController {
     //[GET]  me/stored/courses
     storedCourses(req, res, next){
-        CourseModel.find({})
-            .then(courseArr => {
-                res.render('me/stored-courses', { //'me/stored-courses': dir tới .hbs trong thư mục views
-                    courses: multipleMongooseToObj(courseArr)
+        //Promise
+        Promise.all([CourseModel.find({}), CourseModel.countDocumentsWithDeleted({deleted: true})])
+            .then(([courseArr, deletedCount]) =>  // [courseArr, deletedCount] : destructuring
+                res.render('me/stored-courses', { //'me/stored-courses': dir tới .hbs trong thư mục views, truyền vào 2 value: courses, deletedCount 
+                    courses: multipleMongooseToObj(courseArr),
+                    deletedCount  //  ~ deletedCount: deletedCount (object literal)
                 })
-            })
+            )
             .catch(next);
+
+        //đếm số course trong thùng rác
+        // CourseModel.countDocumentsWithDeleted({deleted: true})
+        //     .then((deletedCount) => {
+        //         console.log(deletedCount);
+        //     })
+        //     .catch(() => {});
+
+        // CourseModel.find({})
+        //     .then(courseArr => {
+        //         res.render('me/stored-courses', { //'me/stored-courses': dir tới .hbs trong thư mục views
+        //             courses: multipleMongooseToObj(courseArr)
+        //         })
+        //     })
+        //     .catch(next);
     }
 
     //[GET]  me/trash/courses
