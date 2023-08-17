@@ -6,8 +6,8 @@
     {{!-- checkbox Xóa All --}}
     <div class="mt-4 d-flex align-items-center">
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck">
-        <label class="form-check-label" for="disabledFieldsetCheck">
+        <input class="form-check-input" type="checkbox" id="ckb-all">
+        <label class="form-check-label" for="ckb-all">
           Chọn tất cả
         </label>
       </div>
@@ -21,7 +21,7 @@
     <table class="table mt-4">
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col" colspan="2">#</th>
                 <th scope="col">Tên khóa học</th>
                 <th scope="col">Trình độ</th>
                 <th scope="col" colspan="2">Ngày tạo</th>
@@ -88,6 +88,8 @@
         var courseId;
         var deleteForm = document.forms['delete-form'];
         var btnDelete = document.getElementById('btn-delete');
+        var ckbAll = $('#ckb-all');
+        var courseItemCheckbox = $('[name="courseIds[]"]');//or: $('input[name="courseIds[]"]')
 
         //when data confirm click:
         $('#confirm-delete-modal').on('show.bs.modal', function (event) {
@@ -100,6 +102,28 @@
             //SUBMIT delete-form
             deleteForm.submit();
         }
+      
+        //check checkboxAll
+        ckbAll.change(function(){
+          var isCheckedAll = $(this).prop('checked'); //check: return true, uncheck: return false
+          /*
+          if(isCheckedAll){
+            courseItemCheckbox.prop('checked',true);
+          }else{
+            courseItemCheckbox.prop('checked',false);
+          }
+          */
+          courseItemCheckbox.prop('checked',isCheckedAll);
+
+        })
+
+        //courseItemCheckbox change
+        courseItemCheckbox.change(function(){
+          var isCheckedAll = courseItemCheckbox.length === $('[name="courseIds[]"]:checked').length;
+          //console.log(isCheckedAll);
+          ckbAll.prop('checked',isCheckedAll);
+        })
+
     });
    
 </script>
