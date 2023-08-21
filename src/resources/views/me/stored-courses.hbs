@@ -1,4 +1,4 @@
-<div class="mt-4">
+<form class="mt-4" name="container-form"  method="post" action="/courses/handle-form-actions">
     <h3>Khóa học của tôi</h3>
     {{#if deletedCount}}
     <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a> {{!--deletedCount: truyền từ func storedCourses from stored-courses.hbs--}}
@@ -11,11 +11,11 @@
           Chọn tất cả
         </label>
       </div>
-      <select id="disabledSelect" class="form-control form-control-sm checkbox-select-all">
-        <option>--Chọn hành Động--</option>
-        <option>Xóa</option>
+      <select name="action" class="form-control form-control-sm checkbox-select-all" required>
+        <option value="none" disabled selected > --Chọn hành Động--</option>
+        <option value="delete">Xóa</option>
       </select>
-      <button class="btn btn-primary btn-sm disabled">Thực hiện</button>
+      <button id="btn-submit" class="btn btn-primary btn-sm btn-check-all-submit disabled">Thực hiện</button>
     </div>
     {{!-- List courses --}}
     <table class="table mt-4">
@@ -54,7 +54,7 @@
             {{/each}}
         </tbody>
         </table>
-</div>
+</form>
 
 {{!-- confirm delete course --}}
 <!-- Modal -->
@@ -84,45 +84,90 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        //create global var
-        var courseId;
-        var deleteForm = document.forms['delete-form'];
-        var btnDelete = document.getElementById('btn-delete');
-        var ckbAll = $('#ckb-all');
-        var courseItemCheckbox = $('[name="courseIds[]"]');//or: $('input[name="courseIds[]"]')
-
-        //when data confirm click:
-        $('#confirm-delete-modal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            courseId = button.data('id') // Extract info from data-* attributes
-            console.log(courseId);
-        });
-        btnDelete.onclick = function () {
-            deleteForm.action = `/courses/${courseId}/softDelete?_method=PUT`; //overwrite method
-            //SUBMIT delete-form
-            deleteForm.submit();
-        }
+      //create global var
+      var courseId;
+      //delete-form
+      var deleteForm = document.forms['delete-form'];
+      //container-form
+      var containerForm = document.forms['container-form'];
       
-        //check checkboxAll
-        ckbAll.change(function(){
-          var isCheckedAll = $(this).prop('checked'); //check: return true, uncheck: return false
-          /*
-          if(isCheckedAll){
-            courseItemCheckbox.prop('checked',true);
-          }else{
-            courseItemCheckbox.prop('checked',false);
-          }
-          */
-          courseItemCheckbox.prop('checked',isCheckedAll);
+      var btnDelete = document.getElementById('btn-delete');
+      var ckbAll = $('#ckb-all');
+      var courseItemCheckbox = $('[name="courseIds[]"]');//or: $('input[name="courseIds[]"]')
+      //var btnSubmit = $('#btn-submit');
+      var btnSubmit = $('.btn-check-all-submit');
+     
+      //when data confirm click:
+      $('#confirm-delete-modal').on('show.bs.modal', function (event) {
+          var button = $(event.relatedTarget) // Button that triggered the modal
+          courseId = button.data('id') // Extract info from data-* attributes
+          console.log(courseId);
+      });
+      btnDelete.onclick = function () {
+          deleteForm.action = `/courses/${courseId}/softDelete?_method=PUT`; //overwrite method
+          //SUBMIT delete-form
+          deleteForm.submit();
+      };
+    
+      //check checkboxAll
+      ckbAll.change(function(){
+        var isCheckedAll = $(this).prop('checked'); //check: return true, uncheck: return false
+        /*
+        if(isCheckedAll){
+          courseItemCheckbox.prop('checked',true);
+        }else{
+          courseItemCheckbox.prop('checked',false);
+        }
+        */
+        courseItemCheckbox.prop('checked',isCheckedAll);
+        renderCheckAllSubmitBtn();
 
-        })
+      });
 
-        //courseItemCheckbox change
-        courseItemCheckbox.change(function(){
-          var isCheckedAll = courseItemCheckbox.length === $('[name="courseIds[]"]:checked').length;
-          //console.log(isCheckedAll);
-          ckbAll.prop('checked',isCheckedAll);
-        })
+      //courseItemCheckbox change
+      courseItemCheckbox.change(function(){
+        var isCheckedAll = courseItemCheckbox.length === $('[name="courseIds[]"]:checked').length;
+        //console.log(isCheckedAll);
+        ckbAll.prop('checked',isCheckedAll);
+        renderCheckAllSubmitBtn();
+      });
+
+      //re-render check all submit button
+      function renderCheckAllSubmitBtn(){
+        var checkCount = $('[name="courseIds[]"]:checked').length;
+        if(checkCount > 0){
+          console.log(btnSubmit);
+          console.log(checkCount)
+          //btnSubmit.removeData('disabled');
+          //btnSubmit.prop('disabled',false);
+           btnSubmit.attr("class", "btn btn-primary btn-sm btn-check-all-submit");
+        }
+        else{
+          console.log(btnSubmit);
+          console.log(checkCount);
+          btnSubmit.addClass('disabled');
+          //btnSubmit.prop('disabled',true);
+          //btnSubmit.attr("class", "btn btn-primary btn-sm btn-check-all-submit disabled");
+        }
+      }
+
+      //submit button checked
+      btnSubmit.click(function(e){
+        e.preventDefault(); //bỏ qua submit mặc định của form
+        var isSubmittable = !$(this).hasClass('disabled');
+        if(isSubmittable){
+          containerForm.submit();
+        }
+        
+      });
+      /*
+      btnSubmit.on( 'submit', function(e){
+        var isSubmittable = !$(this).hasClass('disabled');
+        if(!isSubmittable){
+            e.preventDefault();
+        }      
+      });
+      */
 
     });
    
