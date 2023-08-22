@@ -84,7 +84,7 @@ class CourseController {
                 .then(() => res.redirect('back') ) 
                 .catch(next);
                 break;
-        
+            
             default:
                 res.json({message: 'Action is invalid!'});
         }
