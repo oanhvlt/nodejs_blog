@@ -15,7 +15,7 @@
         <option disabled selected > --Chọn hành Động--</option>
         <option value="delete">Xóa</option>
       </select>
-      <button id="btn-submit" class="btn btn-primary btn-sm btn-check-all-submit disabled">Thực hiện</button>
+      <button id="btn-submit" class="btn btn-primary btn-sm btn-check-all-submit" disabled>Thực hiện</button>
     </div>
     {{!-- List courses --}}
     <table class="table mt-4">
@@ -97,7 +97,7 @@
       var ckbAll = $('#ckb-all');
       var courseItemCheckbox = $('[name="courseIds[]"]');//or: $('input[name="courseIds[]"]')
       //var btnSubmit = $('#btn-submit');
-      var btnSubmit = $('.btn-check-all-submit');
+      var btnSubmit = $('#btn-submit');
       var selectAction = $('[name="action"]');
       //console.log(selectAction);
      
@@ -142,12 +142,14 @@
         if(checkCount > 0){
           console.log(btnSubmit);
           console.log(checkCount)
-          btnSubmit.attr("class", "btn btn-primary btn-sm btn-check-all-submit");
+          //btnSubmit.attr("class", "btn btn-primary btn-sm btn-check-all-submit");
+          btnSubmit.attr("disabled", false);//or: //btnSubmit.prop( "disabled", false );
         }
         else{
           console.log(btnSubmit);
           console.log(checkCount);
-          btnSubmit.addClass('disabled');
+          //btnSubmit.addClass('disabled');
+          btnSubmit.attr("disabled", true);
         }
       }
 
@@ -165,16 +167,7 @@
         }
         
       });
-      /*
-      containerForm.on( 'submit', function(e){
-        var isSubmittable = btnSubmit.hasClass('disabled');
-        console.log(isSubmittable);
-        if(isSubmittable){
-          alert();
-          //e.preventDefault();
-        }      
-      });
-      */
+     
 
     });
    
