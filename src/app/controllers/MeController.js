@@ -5,8 +5,18 @@ const {multipleMongooseToObj} = require('../../until/mongoose');
 class MeController {
     //[GET]  me/stored/courses
     storedCourses(req, res, next){
+
+        
+
+        let courseQuery = CourseModel.find({});
+
+        // //hasOwnProperty: check param exist in query
+        // if(req.query.hasOwnProperty('_sort')){
+        //    //do something
+        // }
+
         //Promise
-        Promise.all([CourseModel.find({}), CourseModel.countDocumentsWithDeleted({deleted: true})])
+        Promise.all([courseQuery, CourseModel.countDocumentsWithDeleted({deleted: true})])
             .then(([courseArr, deletedCount]) =>  // [courseArr, deletedCount] : destructuring
                 res.render('me/stored-courses', { //'me/stored-courses': dir tới .hbs trong thư mục views, truyền vào 2 value: courses, deletedCount 
                     courses: multipleMongooseToObj(courseArr),
@@ -29,6 +39,8 @@ class MeController {
         //         })
         //     })
         //     .catch(next);
+
+        
     }
 
     //[GET]  me/trash/courses
