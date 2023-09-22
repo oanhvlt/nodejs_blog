@@ -6,14 +6,16 @@ class MeController {
     //[GET]  me/stored/courses
     storedCourses(req, res, next){
 
-        
+        //res.json(res.locals._sort);
 
         let courseQuery = CourseModel.find({});
 
-        // //hasOwnProperty: check param exist in query
-        // if(req.query.hasOwnProperty('_sort')){
-        //    //do something
-        // }
+        //hasOwnProperty: check param exist in query
+        if(req.query.hasOwnProperty('_sort')){
+           courseQuery = courseQuery.sort({
+                [req.query.column]: req.query.type
+           });
+        }
 
         //Promise
         Promise.all([courseQuery, CourseModel.countDocumentsWithDeleted({deleted: true})])

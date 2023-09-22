@@ -71,6 +71,27 @@ app.engine('hbs', engine({//config file name from .handlebars to .hbs
     extname: '.hbs', //config file name from .handlebars to .hbs
     helpers: {
       sum: (a,b) => a + b,  //sum(a,b) {return a+b}
+      sortable: (field, sort) => { //value truyền từ stored-courses.hbs: field: name/level, sort: _sort
+
+        const sortType = field === sort.column ? sort.type : 'default';
+
+        const icons = {
+          default: 'oi oi-elevator', //https://www.nsbasic.com/app/OpenIconic.html
+          asc: 'oi oi-sort-ascending',
+          desc: 'oi oi-sort-descending'
+        };
+
+        const types = {
+          default: 'desc',
+          asc: 'desc',
+          desc: 'asc',
+        }
+
+        const icon = icons[sortType];
+        const type = types[sortType];
+
+        return `<a href="?_sort&column=${field}&type=${type}"><span class="${icon}"></span></a> `; // column=name: name is field in database         
+      }
   }
 }));
 app.set('view engine', 'hbs');

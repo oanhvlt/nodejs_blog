@@ -1,7 +1,7 @@
 <form class="mt-4" name="container-form"  method="post" action="/courses/handle-form-actions">
     <h3>Khóa học của tôi</h3>
     {{#if deletedCount}}
-    <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a> {{!--deletedCount: truyền từ func storedCourses from stored-courses.hbs--}}
+    <a href="/me/trash/courses">Thùng rác ({{deletedCount}})</a> {{!--deletedCount: truyền từ func storedCourses from MeController.js--}}
     {{/if}}
     {{!-- checkbox Xóa All --}}
     <div class="mt-4 d-flex align-items-center">
@@ -17,6 +17,7 @@
       </select>
       <button id="btn-submit" class="btn btn-primary btn-sm btn-check-all-submit" disabled>Thực hiện</button>
     </div>
+
     {{!-- List courses --}}
     <table class="table mt-4">
         <thead>
@@ -24,11 +25,21 @@
                 <th scope="col" colspan="2">#</th>
                 <th scope="col">
                   Tên khóa học
-                  <a href="?_sort&column=name&type=desc"><span class="oi oi-elevator"></span></a>
-                  {{!-- column=name: name is field in database --}}
+                  {{!-- show icon sort: 
+                      gọi helper sortable, truyền vào 2 value 'name', _sort 
+                      -- sortable: declare by helpers of engine handlebar from index.js 
+                      -- _sort: declare at SortMiddleware.js --}}
+                  {{{sortable 'name' _sort}}}  {{!-- https://handlebarsjs.com/guide/#html-escaping >> HTML Escaping: {{{ }}} show đúng những gì trả về --}}
+                 
                 </th>
-                <th scope="col">Trình độ</th>
-                <th scope="col" colspan="2">Ngày tạo</th>
+                <th scope="col">
+                  Trình độ
+                  {{{sortable 'level' _sort}}} 
+                </th>
+                <th scope="col" colspan="2">
+                  Ngày tạo
+                  {{{sortable 'createdAt' _sort}}} 
+                </th>
             </tr>
         </thead>
         <tbody>
